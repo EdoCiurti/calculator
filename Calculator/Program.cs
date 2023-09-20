@@ -1,4 +1,5 @@
-﻿using System;
+﻿using calculator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace Calculator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new formMain());
+            Application.Run(new FormMain());
         }
     }
 }
