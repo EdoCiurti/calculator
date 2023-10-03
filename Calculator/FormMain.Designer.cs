@@ -42,6 +42,7 @@
             this.lbl_result.TabIndex = 0;
             this.lbl_result.Text = "0";
             this.lbl_result.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_result.TextChanged += new System.EventHandler(this.lbl_result_TextChanged);
             // 
             // panelTop
             // 
@@ -51,7 +52,7 @@
             this.panelTop.Size = new System.Drawing.Size(322, 32);
             this.panelTop.TabIndex = 1;
             // 
-            // Form1
+            // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -59,7 +60,7 @@
             this.Controls.Add(this.lbl_result);
             this.Controls.Add(this.panelTop);
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "FormMain";
             this.ShowIcon = false;
             this.Text = "Calcolatrice";
             this.Load += new System.EventHandler(this.FormMain_Load);
