@@ -48,8 +48,8 @@ namespace calculator
 
         private BtnStruct[,] buttons =
         {
-            { new BtnStruct('%'), new BtnStruct('\u0152',SymbolType.cancellEntry), new BtnStruct('C',SymbolType.cancellAll), new BtnStruct('\u232B',SymbolType.backspace) },
-            { new BtnStruct('\u215F',SymbolType.SpecialOp), new BtnStruct('\u00B2'), new BtnStruct('\u221A'), new BtnStruct('\u00F7',SymbolType.Operator )},
+            { new BtnStruct('%',SymbolType.SpecialOp), new BtnStruct('\u0152',SymbolType.cancellEntry), new BtnStruct('C',SymbolType.cancellAll), new BtnStruct('\u232B',SymbolType.backspace) },
+            { new BtnStruct('\u215F',SymbolType.SpecialOp), new BtnStruct('\u00B2',SymbolType.SpecialOp), new BtnStruct('\u221A',SymbolType.SpecialOp), new BtnStruct('\u00F7',SymbolType.Operator )},
             { new BtnStruct('7',SymbolType.Number,true,true), new BtnStruct('8',SymbolType.Number,true,true), new BtnStruct('9',SymbolType.Number,true,true), new BtnStruct('\u00D7',SymbolType.Operator) },
             { new BtnStruct('4',SymbolType.Number,true,true), new BtnStruct('5',SymbolType.Number,true,true), new BtnStruct('6',SymbolType.Number,true,true), new BtnStruct('-',SymbolType.Operator) },
             { new BtnStruct('1',SymbolType.Number,true,true), new BtnStruct('2',SymbolType.Number,true,true), new BtnStruct('3',SymbolType.Number,true,true), new BtnStruct('+',SymbolType.Operator) },
@@ -109,17 +109,22 @@ namespace calculator
                         lbl_result.Text = "";
                     }
                     lbl_result.Text += clickedButton.Text;
+
+                    break;
+                case SymbolType.SpecialOp:
+                    SpecialManageOperator(clickedButtonStruct);
                     break;
                 case SymbolType.Operator:
-                case SymbolType.SpecialOp:
                     if (lastButtonClicked.type == SymbolType.Operator && clickedButtonStruct.Content != '=')
                     {
                         lastOperator = clickedButtonStruct.Content;
+                        
                     }
                     else
                     {
+                       
                         ManageOperator(clickedButtonStruct);
-                        SpecialManageOperator(clickedButtonStruct);
+                      
                     }
                   
                     break;
@@ -162,6 +167,7 @@ namespace calculator
                 case SymbolType.cancellEntry:
                     if(lastButtonClicked.Content == '=')
                     {
+                      
                         NewMethod();
                     }
                     else
@@ -174,7 +180,7 @@ namespace calculator
                 default:
                     break;
             }
-            if(clickedButtonStruct.type != SymbolType.backspace)
+            if(clickedButtonStruct.type != SymbolType.backspace && clickedButtonStruct.type != SymbolType.PlusMinusSign)
                 lastButtonClicked = clickedButtonStruct;
 
         }
@@ -194,8 +200,17 @@ namespace calculator
                 op2 = decimal.Parse(lbl_result.Text);
                 switch (clickedButtonStruct.Content)
                 {
+                    case '%':
+                        result = (op1 *op2) / 100;
+                        break;
                     case '\u215F': // 1/x
                         result = 1 / op2;
+                        break;
+                    case '\u00B2':
+                        result = op2 * op1;
+                        break;
+                    case '\u221A':
+                        result = (decimal)Math.Sqrt((double)op2);
                         break;
 
                     default:
@@ -206,6 +221,12 @@ namespace calculator
 
             }
         }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void ManageOperator(BtnStruct clickedButtonStruct)
         {
          
@@ -214,28 +235,38 @@ namespace calculator
                 if (lastOperator == ' ')
                 {
                     op1 = decimal.Parse(lbl_result.Text);
-                    lastOperator = clickedButtonStruct.Content;
+                label1.Text = op1.ToString();
+                lastOperator = clickedButtonStruct.Content;
                 }
                 else
                 {
                     if (lastButtonClicked.Content != '=')
-                        op2 = decimal.Parse(lbl_result.Text);
-                    switch (lastOperator)
+                {
+                    op2 = decimal.Parse(lbl_result.Text);
+
+                    label3.Text = op2.ToString();
+                }
+                       
+                switch (lastOperator)
                     {
                         case '+':
-                            result = op1 + op2;
+                        label2.Text = "+";
+                        result = op1 + op2;
                             break;
 
                         case '-':
-                            result = op1 - op2;
+                        label2.Text = "-";
+                        result = op1 - op2;
                             break;
 
                         case '\u00D7':
-                            result = op1 * op2;
+                        label2.Text = "*";
+                        result = op1 * op2;
                             break;
 
                         case '\u00F7':
-                            result = op1 / op2;
+                        label2.Text = "/";
+                        result = op1 / op2;
                             break;
 
                         default:
