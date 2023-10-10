@@ -100,7 +100,7 @@ namespace calculator
         {
             Button clickedButton = (Button)sender;
             BtnStruct clickedButtonStruct = (BtnStruct)clickedButton.Tag;
-
+           
             switch (clickedButtonStruct.type)
             {
                 case SymbolType.Number:
@@ -115,14 +115,20 @@ namespace calculator
                     SpecialManageOperator(clickedButtonStruct);
                     break;
                 case SymbolType.Operator:
+                    if(clickedButtonStruct.Content != '=') label2.Text = clickedButtonStruct.Content.ToString();
+
                     if (lastButtonClicked.type == SymbolType.Operator && clickedButtonStruct.Content != '=')
                     {
+                        
                         lastOperator = clickedButtonStruct.Content;
                         
                     }
                     else
                     {
-                       
+                       if(clickedButtonStruct.Content == '=')
+                        {
+                            label4.Text = "=";
+                        }
                         ManageOperator(clickedButtonStruct);
                       
                     }
@@ -167,7 +173,7 @@ namespace calculator
                 case SymbolType.cancellEntry:
                     if(lastButtonClicked.Content == '=')
                     {
-                      
+                    
                         NewMethod();
                     }
                     else
@@ -187,6 +193,12 @@ namespace calculator
 
         private void NewMethod()
         {
+            label1.Text = "";
+            label2.Text = "";
+            label3.Text = "";
+            label4.Text = "";
+            label5.Text = "";
+
             op1 = 0;
             op2 = 0;
             result = 0;
@@ -250,22 +262,22 @@ namespace calculator
                 switch (lastOperator)
                     {
                         case '+':
-                        label2.Text = "+";
+                        //label2.Text = "+";
                         result = op1 + op2;
                             break;
 
                         case '-':
-                        label2.Text = "-";
+                        //label2.Text = "-";
                         result = op1 - op2;
                             break;
 
                         case '\u00D7':
-                        label2.Text = "*";
+                        // label2.Text = "*";
                         result = op1 * op2;
                             break;
 
                         case '\u00F7':
-                        label2.Text = "/";
+                        // label2.Text = "/";
                         result = op1 / op2;
                             break;
 
@@ -279,7 +291,8 @@ namespace calculator
                         if (lastButtonClicked.Content == '=') op2 = 0;
                     }
                     lbl_result.Text = result.ToString();
-                }
+                    label5.Text = result.ToString();
+            }
             
         }
 
